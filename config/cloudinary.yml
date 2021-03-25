@@ -1,0 +1,10 @@
+# config/cloudinary.yml
+development:
+    cloud_name: "dsrvrjdsl"
+    api_key: "894569618199779"
+    api_secret: "oefGkMoKZyacEpqOaJwn_3GJigU"
+  
+production:
+  cloud_name: "dsrvrjdsl"
+  api_key: "894569618199779"
+  api_secret: "oefGkMoKZyacEpqOaJwn_3GJigU"
