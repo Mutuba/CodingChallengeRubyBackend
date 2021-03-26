@@ -24,7 +24,7 @@ module Api
         task_params[:avatar] = command.result[:image_url] unless command.nil?
 
         @task = Task.new(task_params)
-        if @task.save
+        if @task.save!
           json_response(@task, 201)
         else
           json_response(@task.errors, 422)
@@ -32,7 +32,7 @@ module Api
       end
 
       def update
-        if @task.update_attributes(task_params)
+        if @task.update(task_params)
           json_response(@task, 200)
         else
           json_response(@task.errors, 422)

@@ -1,60 +1,59 @@
 # frozen_string_literal: true
 
-# spec/requests/todos_spec.rb
+# spec/requests/tasks_spec.rb
 require 'rails_helper'
 
 RSpec.describe 'Tasks', type: :request do
   # initialize test data
-  #   let!(:todos) { create_list(:todo, 10, created_by: user.id) }
+  let!(:tasks) { create_list(:task, 10) }
 
-  #   let(:todo_id) { todos.first.id }
-  #   let(:headers) { valid_headers }
+  let(:task_id) { tasks.first.id }
 
-  # Test suite for GET /todos
-  #   describe 'GET /api/v1/todos' do
-  #     # make HTTP get request before each example
-  #     before { get '/api/v1/todos', params: {}, headers: headers }
+  #   Test suite for GET /tasks
+  describe 'GET /api/v1/tasks' do
+    # make HTTP get request before each example
+    before { get '/api/v1/tasks', params: {} }
 
-  #     it 'returns todos' do
-  #       # Note `json` is a custom helper to parse JSON responses
-  #       expect(json).not_to be_empty
-  #       expect(json.size).to eq(10)
-  #     end
+    it 'returns tasks' do
+      # Note `json` is a custom helper to parse JSON responses
+      expect(json).not_to be_empty
+      expect(json.size).to eq(10)
+    end
 
-  #     it 'returns status code 200' do
-  #       expect(response).to have_http_status(200)
-  #     end
-  #   end
+    it 'returns status code 200' do
+      expect(response).to have_http_status(200)
+    end
+  end
 
-  #   # Test suite for GET /todos/:id
-  #   describe 'GET /api/v1/todos/:id' do
-  #     before { get "/api/v1/todos/#{todo_id}", params: {}, headers: headers }
+  # Test suite for GET /tasks/:id
+  describe 'GET /api/v1/tasks/:id' do
+    before { get "/api/v1/tasks/#{task_id}", params: {} }
 
-  #     context 'when the record exists' do
-  #       it 'returns the todo' do
-  #         expect(json).not_to be_empty
-  #         expect(json['id']).to eq(todo_id)
-  #       end
+    context 'when the task record exists' do
+      it 'returns the task' do
+        expect(json).not_to be_empty
+        expect(json['id']).to eq(task_id)
+      end
 
-  #       it 'returns status code 200' do
-  #         expect(response).to have_http_status(200)
-  #       end
-  #     end
+      it 'returns status code 200' do
+        expect(response).to have_http_status(200)
+      end
+    end
 
-  #     context 'when the record does not exist' do
-  #       let(:todo_id) { 100 }
+    context 'when the task record does not exist' do
+      let(:task_id) { 100 }
 
-  #       it 'returns status code 404' do
-  #         expect(response).to have_http_status(404)
-  #       end
+      it 'returns status code 404' do
+        expect(response).to have_http_status(404)
+      end
 
-  #       it 'returns a not found message' do
-  #         expect(response.body).to match(/Couldn't find Todo with 'id'=100/)
-  #       end
-  #     end
-  #   end
+      it 'returns a not found message' do
+        expect(json['error']).to match("Couldn't find Task with 'id'=100")
+      end
+    end
+  end
 
-  # Test suite for POST /todos
+  # Test suite for POST /tasks
   describe 'POST /api/v1/tasks' do
     # valid payload
     let(:file) do
@@ -105,29 +104,29 @@ RSpec.describe 'Tasks', type: :request do
     end
   end
 
-  #   # Test suite for PUT /todos/:id
-  #   describe 'PUT /api/v1/todos/:id' do
-  #     let(:valid_attributes) { { title: 'Shopping' }.to_json }
+  # Test suite for PUT /tasks/:id
+  describe 'PUT /api/v1/tasks/:id' do
+    let(:update_attributes) { { finished: true } }
 
-  #     context 'when the record exists' do
-  #       before { put "/api/v1/todos/#{todo_id}", params: valid_attributes, headers: headers }
+    context 'when the record exists' do
+      before { put "/api/v1/tasks/#{task_id}", params: update_attributes }
 
-  #       it 'updates the record' do
-  #         expect(response.body).to be_empty
-  #       end
+      it 'updates the record' do
+        expect(json['finished']).to eq true
+      end
 
-  #       it 'returns status code 204' do
-  #         expect(response).to have_http_status(204)
-  #       end
-  #     end
-  #   end
+      it 'returns status code 204' do
+        expect(response).to have_http_status(200)
+      end
+    end
+  end
 
-  #   # Test suite for DELETE /todos/:id
-  #   describe 'DELETE api/v1/todos/:id' do
-  #     before { delete "/api/v1/todos/#{todo_id}", params: {}, headers: headers }
+  # Test suite for DELETE /tasks/:id
+  describe 'DELETE api/v1/tasks/:id' do
+    before { delete "/api/v1/tasks/#{task_id}", params: {} }
 
-  #     it 'returns status code 204' do
-  #       expect(response).to have_http_status(204)
-  #     end
-  #   end
+    it 'returns status code 204' do
+      expect(response).to have_http_status(204)
+    end
+  end
 end

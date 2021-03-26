@@ -15,6 +15,13 @@
 # it.
 #
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
+
+require 'simplecov'
+SimpleCov.start
+# This outputs the report to your public folder
+# You will want to add this to .gitignore
+SimpleCov.coverage_dir 'public/coverage'
+
 RSpec.configure do |config|
   # rspec-expectations config goes here. You can use an alternate
   # assertion/expectation library such as wrong or the stdlib/minitest
