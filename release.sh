@@ -1,7 +1,6 @@
 #!/bin/bash
 
 echo "Running Release Tasks"
-echo "dropping databse"
  RAILS_ENV=production bin/rails db:drop DISABLE_DATABASE_ENVIRONMENT_CHECK=1
 echo "Running Migrations"
 bundle exec rails db:migrate
