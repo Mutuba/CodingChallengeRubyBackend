@@ -26,6 +26,8 @@ gem 'puma', '~> 5.0'
 gem 'carrierwave'
 gem 'cloudinary'
 
+gem 'webmock'
+
 gem 'rubocop'
 gem 'rubocop-rails'
 
