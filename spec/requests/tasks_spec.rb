@@ -121,6 +121,24 @@ RSpec.describe 'Tasks', type: :request do
     end
   end
 
+
+  # Test suite for PUT /tasks/:id/finish/
+  describe 'PUT /api/v1/tasks/:id/finish' do
+    let(:finish_task_attributes) { { finished: true } }
+
+    context 'when the record exists' do
+      before { put "/api/v1/tasks/#{task_id}/finish", params: finish_task_attributes }
+
+      it 'updates the record' do
+        expect(json['finished']).to eq true
+      end
+
+      it 'returns status code 204' do
+        expect(response).to have_http_status(200)
+      end
+    end
+  end
+
   # Test suite for DELETE /tasks/:id
   describe 'DELETE api/v1/tasks/:id' do
     before { delete "/api/v1/tasks/#{task_id}", params: {} }

@@ -3,7 +3,15 @@
 Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
-      resources :tasks, defaults: { format: :json }
+      resources :tasks, defaults: { format: :json } do
+        # put :finish, on: :member, controller: 'tasks_controller'
+      end
+
+      resources :tasks do
+        member do
+          put :finish
+        end
+      end
     end
   end
 end
