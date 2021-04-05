@@ -47,6 +47,8 @@ module Api
         end
       end
 
+
+      
       def destroy
         @task.destroy
         head :no_content, status: :ok
