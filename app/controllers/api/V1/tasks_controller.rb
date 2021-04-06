@@ -39,6 +39,7 @@ module Api
 
       def finish
         return if task_already_finished?
+
         @task.finish
         if @task.save!
           json_response(@task, 200)
@@ -47,8 +48,6 @@ module Api
         end
       end
 
-
-      
       def destroy
         @task.destroy
         head :no_content, status: :ok

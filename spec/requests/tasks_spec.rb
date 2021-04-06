@@ -121,7 +121,6 @@ RSpec.describe 'Tasks', type: :request do
     end
   end
 
-
   # Test suite for PUT /tasks/:id/finish/
   describe 'PUT /api/v1/tasks/:id/finish' do
     let(:finish_task_attributes) { { finished: true } }
