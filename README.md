@@ -40,8 +40,13 @@
 
 * cd CodingChallengeRubyBackend
 
+* check out to master branch
+
 * run `bundle install` to install application packages
 
+* Run `rails db:create` to create a databse for the application
+
+* Run `rails db:migrate` to run database migrations and create database tables
 
 * The application can be run by running the below command:-
 
