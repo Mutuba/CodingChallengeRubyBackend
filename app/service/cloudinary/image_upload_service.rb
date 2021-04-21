@@ -3,6 +3,7 @@
 module Cloudinary
   class ImageUploadService < ApplicationService
     def initialize(params)
+      super
       @image_file = params.fetch(:avatar)
     end
 

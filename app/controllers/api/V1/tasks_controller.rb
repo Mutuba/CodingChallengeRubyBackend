@@ -23,9 +23,7 @@ module Api
         end
         task_params[:avatar] = command.result[:image_url] unless command.nil?
 
-        @task = Task.new(task_params)
-
-        json_response(@task.errors, 422) unless @task.save!
+        @task = Task.create!(task_params)
         json_response(@task, 201)
       end
 
