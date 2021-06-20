@@ -28,11 +28,8 @@ module Api
       end
 
       def update
-        if @task.update(task_params)
-          json_response(@task, 200)
-        else
-          json_response(@task.errors, 422)
-        end
+        @task.update!(task_params)
+        json_response(@task, 200)
       end
 
       def finish
@@ -47,14 +44,14 @@ module Api
       end
 
       def destroy
-        @task.destroy
+        @task.destroy!
         head :no_content, status: :ok
       end
 
       private
 
       def task
-        @task ||= Task.find(params[:id])
+        @task = Task.find(params[:id])
       end
 
       def task_params

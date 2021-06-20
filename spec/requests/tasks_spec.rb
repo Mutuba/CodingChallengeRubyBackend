@@ -8,8 +8,8 @@ RSpec.describe 'Tasks', type: :request do
   let!(:tasks) { create_list(:task, 10) }
 
   let(:task_id) { tasks.first.id }
-
-  #   Test suite for GET /tasks
+  
+  # Test suite for GET /tasks
   describe 'GET /api/v1/tasks' do
     # make HTTP get request before each example
     before { get '/api/v1/tasks', params: {} }
@@ -108,6 +108,8 @@ RSpec.describe 'Tasks', type: :request do
   describe 'PUT /api/v1/tasks/:id' do
     let(:update_attributes) { { finished: true } }
 
+    let(:invalid_update_attributes) { { description: '' } }
+
     context 'when the record exists' do
       before { put "/api/v1/tasks/#{task_id}", params: update_attributes }
 
@@ -117,6 +119,19 @@ RSpec.describe 'Tasks', type: :request do
 
       it 'returns status code 204' do
         expect(response).to have_http_status(200)
+      end
+    end
+
+    context 'when the request is invalid' do
+      before { put "/api/v1/tasks/#{task_id}", params: invalid_update_attributes }
+
+      it 'returns status code 422' do
+        expect(response).to have_http_status(422)
+      end
+
+      it 'returns a validation failure message' do
+        expect(json['error'])
+          .to eq("Validation failed: Description can't be blank")
       end
     end
   end
@@ -140,10 +155,12 @@ RSpec.describe 'Tasks', type: :request do
 
   # Test suite for DELETE /tasks/:id
   describe 'DELETE api/v1/tasks/:id' do
-    before { delete "/api/v1/tasks/#{task_id}", params: {} }
+    context 'when the request is valid' do
+      before { delete "/api/v1/tasks/#{task_id}" }
 
-    it 'returns status code 204' do
-      expect(response).to have_http_status(204)
+      it 'returns status code 204' do
+        expect(response).to have_http_status(204)
+      end
     end
   end
 end
