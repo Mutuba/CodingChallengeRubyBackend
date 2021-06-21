@@ -8,7 +8,7 @@ RSpec.describe 'Tasks', type: :request do
   let!(:tasks) { create_list(:task, 10) }
 
   let(:task_id) { tasks.first.id }
-  
+
   # Test suite for GET /tasks
   describe 'GET /api/v1/tasks' do
     # make HTTP get request before each example
@@ -72,13 +72,15 @@ RSpec.describe 'Tasks', type: :request do
     end
 
     before(:each) do
-      allow(Cloudinary::ImageUploadService).to receive(:call).and_return(OpenStruct.new(result: { image_url: 'fake_url' }))
+      allow(ActionDispatch::Http::UploadedFile).to receive(:new)
+        .and_return(file)
+      allow(Cloudinary::Uploader).to receive(:upload).with(file).and_return(OpenStruct.new({ url: 'fake_url' }))
     end
     context 'when the request is valid' do
       before do
         post '/api/v1/tasks', params: valid_attributes
       end
-      it 'creates a todo' do
+      it 'creates a task' do
         expect(json['description']).to eq('Learn Elm')
         expect(json['avatar']).to eq('fake_url')
       end
@@ -156,7 +158,7 @@ RSpec.describe 'Tasks', type: :request do
   # Test suite for DELETE /tasks/:id
   describe 'DELETE api/v1/tasks/:id' do
     context 'when the request is valid' do
-      before { delete "/api/v1/tasks/#{task_id}" }
+      before { delete "/api/v1/tasks/#{task_id}", params: {} }
 
       it 'returns status code 204' do
         expect(response).to have_http_status(204)
