@@ -2,13 +2,15 @@
 
 module Cloudinary
   class ImageUploadService < ApplicationService
+    attr_reader :image_file
+
     def initialize(params)
       super()
       @image_file = params.fetch(:avatar)
     end
 
     def call
-      upload_image(@image_file)
+      upload_image(image_file)
       results
     end
 
