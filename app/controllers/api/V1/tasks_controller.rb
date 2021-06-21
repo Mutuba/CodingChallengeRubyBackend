@@ -36,11 +36,8 @@ module Api
         return if task_already_finished?
 
         @task.finish
-        if @task.save!
-          json_response(@task, 200)
-        else
-          json_response(@task.errors, 422)
-        end
+        @task.save!
+        json_response(@task, 200)
       end
 
       def destroy
@@ -56,12 +53,6 @@ module Api
 
       def task_params
         @task_params ||= params.permit(:description, :avatar, :finished)
-      end
-
-      def finish_task_param
-        {
-          finished: true
-        }
       end
 
       def task_already_finished?
