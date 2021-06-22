@@ -17,7 +17,7 @@ RSpec.describe 'Tasks', type: :request do
     it 'returns tasks' do
       # Note `json` is a custom helper to parse JSON responses
       expect(json).not_to be_empty
-      expect(json.size).to eq(10)
+      expect(json.size).to eq(5)
     end
 
     it 'returns status code 200' do
@@ -32,7 +32,7 @@ RSpec.describe 'Tasks', type: :request do
     context 'when the task record exists' do
       it 'returns the task' do
         expect(json).not_to be_empty
-        expect(json['id']).to eq(task_id)
+        expect(json['task']['id']).to eq(task_id)
       end
 
       it 'returns status code 200' do
@@ -81,8 +81,8 @@ RSpec.describe 'Tasks', type: :request do
         post '/api/v1/tasks', params: valid_attributes
       end
       it 'creates a task' do
-        expect(json['description']).to eq('Learn Elm')
-        expect(json['avatar']).to eq('fake_url')
+        expect(json['task']['description']).to eq('Learn Elm')
+        expect(json['task']['avatar']).to eq('fake_url')
       end
 
       it 'returns status code 201' do
@@ -116,7 +116,7 @@ RSpec.describe 'Tasks', type: :request do
       before { put "/api/v1/tasks/#{task_id}", params: update_attributes }
 
       it 'updates the record' do
-        expect(json['finished']).to eq true
+        expect(json['task']['finished']).to eq true
       end
 
       it 'returns status code 204' do
@@ -146,7 +146,7 @@ RSpec.describe 'Tasks', type: :request do
       before { put "/api/v1/tasks/#{task_id}/finish", params: finish_task_attributes }
 
       it 'updates the record' do
-        expect(json['finished']).to eq true
+        expect(json['task']['finished']).to eq true
       end
 
       it 'returns status code 204' do

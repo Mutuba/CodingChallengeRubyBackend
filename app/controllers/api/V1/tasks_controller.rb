@@ -6,12 +6,21 @@ module Api
       before_action :task, only: %i[show destroy update finish]
 
       def index
-        @tasks = Task.order(finished_at: :desc)
-        json_response(@tasks)
+        @tasks = Task.paginate(page: params[:page]).order(finished_at: :desc)
+        previous_page = @tasks.previous_page
+        next_page = @tasks.next_page
+        url = request.original_url
+        json_response(
+          page: @tasks.current_page,
+          pages: @tasks.total_pages,
+          prev: "#{url}?page=#{previous_page}",
+          next: "#{url}?page=#{next_page}",
+          tasks: @tasks
+        )
       end
 
       def show
-        json_response(@task)
+        json_response(task: @task)
       end
 
       def create
@@ -24,12 +33,12 @@ module Api
         task_params[:avatar] = command.result[:image_url] unless command.nil?
 
         @task = Task.create!(task_params)
-        json_response(@task, 201)
+        render json: { task: @task }, status: :created
       end
 
       def update
         @task.update!(task_params)
-        json_response(@task, 200)
+        json_response(task: @task)
       end
 
       def finish
@@ -37,7 +46,7 @@ module Api
 
         @task.finish
         @task.save!
-        json_response(@task, 200)
+        json_response(task: @task)
       end
 
       def destroy
