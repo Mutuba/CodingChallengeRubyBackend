@@ -5,6 +5,5 @@ FactoryBot.define do
   factory :task do
     description { Faker::Quotes::Shakespeare.hamlet_quote }
     avatar { Faker::Internet.url }
-    finished { false }
   end
 end
