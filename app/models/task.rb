@@ -2,6 +2,7 @@
 
 class Task < ApplicationRecord
   validates :description, presence: true
+  has_many :comments, as: :commented_on
 
   def finish
     self.finished = true
